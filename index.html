@@ -1,0 +1,1637 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marco Valerio · EXCELSIOR Barbería Clásica | Reserva tu cita</title>
+  <meta name="description"
+    content="Barbero independiente con más de 12 años de oficio. Corte clásico, skin fade, barba a navaja y faciales con atención 1 a 1. Reserva tu cita online y consulta precios en USD o RD$.">
+  <meta name="theme-color" content="#0c0806">
+
+  <!-- Marca que el JS está activo (para animaciones de aparición sin romper la versión sin JS) -->
+  <script>document.documentElement.classList.add('js');</script>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts: Instrument Sans (texto) & Playfair Display (titulares de rótulo clásico) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Playfair+Display:ital,wght@0,400..700;1,400..700&display=swap"
+    rel="stylesheet">
+
+  <!-- Precarga de la imagen principal -->
+  <link rel="preload" as="image" href="assets/hero-barberia.jpg">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Instrument Sans"', 'sans-serif'],
+            serif: ['"Playfair Display"', 'serif'],
+          },
+          colors: {
+            gold: {
+              200: '#F1E4BF',
+              300: '#E6D3A0',
+              400: '#C9A24A',
+              500: '#B08D3C',
+              600: '#8A6D2C',
+            },
+            walnut: {
+              700: '#1d140e',
+              800: '#140e0a',
+              900: '#0c0806',
+            },
+            leather: '#2a1912',
+            cream: '#F3EAD8',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --gold: #C9A24A;
+      --gold-soft: #E6D3A0;
+      --walnut-900: #0c0806;
+      --walnut-800: #140e0a;
+      --leather: #2a1912;
+      --cream: #F3EAD8;
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    body {
+      background-color: var(--walnut-900);
+      color: var(--cream);
+      font-family: 'Instrument Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ============ FONDO GLOBAL: Nogal oscuro + grano de madera + viñeta ============ */
+    .site-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 70% 45% at 50% 0%, rgba(201, 162, 74, 0.07), transparent 70%),
+        linear-gradient(180deg, #160f0b 0%, #110b08 45%, #0b0705 100%);
+    }
+
+    /* Vetas verticales tipo panel de nogal (generadas con SVG, sin imágenes extra) */
+    .site-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.32;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='640'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.12 0.005' numOctaves='3' seed='11' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.52 0 0 0 0 0.33 0 0 0 0 0.18 1.7 0 0 0 -0.62'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)'/%3E%3C/svg%3E");
+      background-size: 640px 640px;
+    }
+
+    /* Grano fotográfico + viñeta de iluminación cálida */
+    .site-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, 0.7) 100%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.09'/%3E%3C/svg%3E");
+    }
+
+    /* ============ ANIMACIONES ============ */
+    @keyframes motionFadeUp {
+      0% { opacity: 0; transform: translateY(22px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes motionScale {
+      0% { opacity: 0; transform: scale(0.94); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes slowZoom {
+      0% { transform: scale(1.04); }
+      100% { transform: scale(1.14); }
+    }
+
+    /* Parpadeo muy suave de las lámparas de latón */
+    @keyframes lampFlicker {
+      0%, 100% { opacity: 0.85; }
+      45% { opacity: 1; }
+      50% { opacity: 0.78; }
+      55% { opacity: 0.95; }
+    }
+
+    @keyframes scrollCue {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(200%); }
+    }
+
+    @keyframes waPulse {
+      0% { transform: scale(1); opacity: 0.55; }
+      100% { transform: scale(1.7); opacity: 0; }
+    }
+
+    .motion-fade-up { opacity: 0; animation: motionFadeUp 0.7s var(--ease-out) forwards; }
+    .motion-fade-up.d1 { animation-delay: 0.1s; }
+    .motion-scale { opacity: 0; animation: motionScale 0.75s var(--ease-out) 0.2s forwards; }
+    .motion-sub { opacity: 0; animation: motionFadeUp 0.7s var(--ease-out) 0.4s forwards; }
+    .motion-cta { opacity: 0; animation: motionFadeUp 0.6s var(--ease-out) 0.55s forwards; }
+    .motion-stats { opacity: 0; animation: motionFadeUp 0.6s var(--ease-out) 0.7s forwards; }
+
+    /* Aparición al hacer scroll */
+    .js .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+    }
+
+    .js .reveal.is-visible { opacity: 1; transform: none; }
+    .js .reveal.delay-1 { transition-delay: 0.12s; }
+    .js .reveal.delay-2 { transition-delay: 0.24s; }
+
+    /* ============ HERO ============ */
+    .hero-media {
+      transition: transform 0.9s var(--ease-out);
+      will-change: transform;
+    }
+
+    .hero-img {
+      animation: slowZoom 30s ease-in-out infinite alternate;
+      transform-origin: 72% 50%;
+    }
+
+    .hero-scrim {
+      background:
+        linear-gradient(90deg, rgba(12, 8, 6, 0.97) 0%, rgba(12, 8, 6, 0.86) 34%, rgba(12, 8, 6, 0.35) 64%, rgba(12, 8, 6, 0.12) 100%),
+        linear-gradient(180deg, rgba(12, 8, 6, 0.6) 0%, transparent 22%, transparent 68%, #0c0806 100%);
+    }
+
+    @media (max-width: 1023px) {
+      .hero-scrim {
+        background: linear-gradient(180deg, rgba(12, 8, 6, 0.78) 0%, rgba(12, 8, 6, 0.88) 55%, #0c0806 100%);
+      }
+    }
+
+    .lamp-glow {
+      background:
+        radial-gradient(circle at 60% 4%, rgba(255, 190, 110, 0.16), transparent 28%),
+        radial-gradient(circle at 85% 4%, rgba(255, 190, 110, 0.14), transparent 26%);
+      animation: lampFlicker 7s ease-in-out infinite;
+    }
+
+    .scroll-cue-line { position: relative; overflow: hidden; }
+
+    .scroll-cue-line::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 40%;
+      background: var(--gold);
+      animation: scrollCue 2.2s var(--ease-out) infinite;
+    }
+
+    /* ============ COMPONENTES ============ */
+    .glass-panel {
+      background: rgba(22, 15, 11, 0.78);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(201, 162, 74, 0.14);
+      box-shadow: inset 0 1px 0 rgba(255, 240, 210, 0.05);
+    }
+
+    @media (prefers-reduced-transparency: reduce) {
+      .glass-panel { background: #160f0b; backdrop-filter: none; -webkit-backdrop-filter: none; }
+    }
+
+    /* Ornamento separador de sección (tijeras + filetes dorados) */
+    .ornament {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--gold);
+      opacity: 0.75;
+    }
+
+    .ornament span {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201, 162, 74, 0.65), transparent);
+    }
+
+    /* Marco desplazado del retrato */
+    .portrait-frame { isolation: isolate; }
+
+    .portrait-frame::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      transform: translate(18px, 18px);
+      border: 1px solid rgba(201, 162, 74, 0.45);
+      border-radius: 28px;
+      z-index: -1;
+      transition: transform 0.6s var(--ease-out);
+    }
+
+    .portrait-frame:hover::before { transform: translate(10px, 10px); }
+
+    .wa-pulse::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 9999px;
+      background: #25D366;
+      animation: waPulse 2.6s ease-out infinite;
+      z-index: -1;
+    }
+
+    .press:active { transform: scale(0.97); }
+
+    input, select, textarea { color-scheme: dark; }
+    select option { background: #140e0a; color: #F3EAD8; }
+
+    :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+    /* Scrollbar personalizada */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #0c0806; }
+    ::-webkit-scrollbar-thumb { background: #2a1d14; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #C9A24A; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; }
+      .motion-fade-up, .motion-scale, .motion-sub, .motion-cta, .motion-stats { opacity: 1; }
+      .js .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+
+<body class="text-cream selection:bg-gold-400 selection:text-black">
+
+  <!-- Fondo global de barbería (nogal + grano) -->
+  <div class="site-bg" aria-hidden="true"></div>
+
+  <!-- Sprite: logotipo de WhatsApp (Simple Icons) -->
+  <svg width="0" height="0" class="absolute" aria-hidden="true" focusable="false">
+    <symbol id="icon-whatsapp" viewBox="0 0 24 24">
+      <path fill="currentColor"
+        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+    </symbol>
+  </svg>
+
+  <!-- ================= NAVBAR ================= -->
+  <header id="navbar" class="fixed top-0 w-full z-50 bg-transparent px-6 py-4 transition-all duration-300">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+      <!-- Marca -->
+      <a href="#inicio" class="flex items-center gap-3 group" aria-label="EXCELSIOR, ir al inicio">
+        <div
+          class="relative w-10 h-10 rounded-full bg-white/5 border border-gold-400/40 flex items-center justify-center group-hover:border-gold-400 transition-colors">
+          <i data-lucide="scissors"
+            class="w-5 h-5 text-gold-400 group-hover:rotate-45 transition-transform duration-500"></i>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-sans font-bold text-lg tracking-[0.22em] text-white leading-none">EXCELSIOR</span>
+          <span class="font-serif italic text-xs text-gold-400 tracking-wide">Barbería Clásica de Autor</span>
+        </div>
+      </a>
+
+      <!-- Navegación (escritorio) -->
+      <nav class="hidden lg:flex items-center gap-8 font-sans text-sm font-medium" aria-label="Principal">
+        <a href="#servicios" class="text-white/75 hover:text-gold-300 transition-colors">Servicios</a>
+        <a href="#sobre-mi" class="text-white/75 hover:text-gold-300 transition-colors">Sobre mí</a>
+        <a href="#reservar" class="text-white/75 hover:text-gold-300 transition-colors">Agendar cita</a>
+        <a href="#contacto" class="text-white/75 hover:text-gold-300 transition-colors">Contacto</a>
+      </nav>
+
+      <!-- Moneda + Mis citas + CTA -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <div
+          class="hidden sm:flex items-center bg-white/5 backdrop-blur-md border border-white/10 rounded-full p-1 text-xs font-semibold"
+          title="Cambiar moneda (Dólar / Peso Dominicano)">
+          <button type="button" data-currency-btn="USD"
+            class="currency-switch px-2.5 py-1 rounded-full bg-gold-400 text-black transition-all">USD $</button>
+          <button type="button" data-currency-btn="DOP"
+            class="currency-switch px-2.5 py-1 rounded-full text-white/80 hover:text-white transition-all">RD$</button>
+          <button type="button" data-currency-btn="BOTH"
+            class="currency-switch hidden md:inline-block px-2.5 py-1 rounded-full text-white/80 hover:text-white transition-all">Ambos</button>
+        </div>
+
+        <button id="open-appointments-btn" type="button"
+          class="hidden md:flex items-center gap-2 text-sm font-medium text-white/85 hover:text-gold-300 transition-colors px-3 py-2 rounded-full bg-white/5 border border-white/10">
+          <i data-lucide="calendar-check" class="w-4 h-4 text-gold-400"></i>
+          <span>Mis citas</span>
+          <span id="appointments-badge"
+            class="px-1.5 py-0.5 text-[11px] rounded-full bg-gold-400 text-black font-bold">0</span>
+        </button>
+
+        <a href="#reservar"
+          class="press hidden sm:inline-flex bg-gold-400 text-black hover:bg-gold-300 transition-colors rounded-full px-5 py-2.5 text-sm font-semibold shadow-lg shadow-black/40">
+          Reservar cita
+        </a>
+
+        <!-- Botón menú móvil -->
+        <button id="mobile-menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu"
+          class="lg:hidden w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white"
+          aria-label="Abrir menú">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Menú móvil -->
+    <div id="mobile-menu"
+      class="lg:hidden hidden max-w-7xl mx-auto mt-3 glass-panel rounded-3xl p-4 flex-col gap-1 text-sm font-medium">
+      <a href="#servicios" class="mobile-link px-4 py-3 rounded-2xl hover:bg-white/5">Servicios</a>
+      <a href="#sobre-mi" class="mobile-link px-4 py-3 rounded-2xl hover:bg-white/5">Sobre mí</a>
+      <a href="#reservar" class="mobile-link px-4 py-3 rounded-2xl hover:bg-white/5">Agendar cita</a>
+      <a href="#contacto" class="mobile-link px-4 py-3 rounded-2xl hover:bg-white/5">Contacto</a>
+      <button id="open-appointments-mobile" type="button"
+        class="mobile-link text-left px-4 py-3 rounded-2xl hover:bg-white/5 flex items-center gap-2">
+        <i data-lucide="calendar-check" class="w-4 h-4 text-gold-400"></i> Mis citas
+      </button>
+      <div class="flex items-center gap-2 px-4 pt-3 mt-2 border-t border-white/10 text-xs font-semibold">
+        <span class="text-white/55 mr-1">Moneda:</span>
+        <button type="button" data-currency-btn="USD"
+          class="currency-switch px-3 py-1.5 rounded-full bg-gold-400 text-black">USD $</button>
+        <button type="button" data-currency-btn="DOP"
+          class="currency-switch px-3 py-1.5 rounded-full text-white/80">RD$</button>
+        <button type="button" data-currency-btn="BOTH"
+          class="currency-switch px-3 py-1.5 rounded-full text-white/80">Ambos</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= HERO ================= -->
+    <section id="inicio" class="relative w-full min-h-[100dvh] overflow-hidden flex items-center pt-24 pb-20">
+      <!-- Imagen de barbería clásica con zoom lento + parallax -->
+      <div id="hero-media" class="hero-media absolute -inset-6 z-0" aria-hidden="true">
+        <img src="assets/hero-barberia.jpg" alt=""
+          class="hero-img w-full h-full object-cover object-[72%_center]" fetchpriority="high">
+      </div>
+      <div class="absolute inset-0 z-0 hero-scrim" aria-hidden="true"></div>
+      <div class="absolute inset-0 z-0 lamp-glow mix-blend-screen pointer-events-none" aria-hidden="true"></div>
+
+      <!-- Partículas de polvo dorado flotando bajo la luz de las lámparas -->
+      <canvas id="hero-dust" class="absolute inset-0 w-full h-full z-[1] pointer-events-none"
+        aria-hidden="true"></canvas>
+
+      <div class="relative z-10 max-w-7xl mx-auto px-6 w-full">
+        <div class="max-w-2xl flex flex-col items-start text-left space-y-7">
+
+          <div
+            class="motion-fade-up inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-black/30 border border-gold-400/30 backdrop-blur-md">
+            <span class="relative flex w-2 h-2">
+              <span class="absolute inline-flex w-full h-full rounded-full bg-gold-400 opacity-60 animate-ping"></span>
+              <span class="relative inline-flex w-2 h-2 rounded-full bg-gold-400"></span>
+            </span>
+            <span class="text-xs sm:text-sm uppercase tracking-[0.2em] text-gold-300 font-semibold">
+              Barbero independiente · Atención 1 a 1
+            </span>
+          </div>
+
+          <p class="motion-fade-up d1 font-serif italic text-3xl sm:text-5xl leading-[1.15] pb-1 text-gold-300">
+            El arte del buen corte y la navaja clásica
+          </p>
+
+          <h1
+            class="motion-scale font-sans font-semibold text-6xl sm:text-8xl lg:text-[112px] leading-[0.95] pb-3 tracking-tighter bg-gradient-to-b from-[#FBF5E8] via-[#F3EAD8] to-[#C9A24A] bg-clip-text text-transparent">
+            Estilo Impecable
+          </h1>
+
+          <p class="motion-sub font-sans text-lg sm:text-xl leading-[1.65] text-white/75 max-w-xl">
+            Soy <strong class="text-white font-semibold">Marco Valerio</strong>. Te atiendo personalmente, sin prisas y
+            sin turnos compartidos. Consulta mis precios en
+            <strong class="text-gold-400 font-semibold">USD</strong> o
+            <strong class="text-gold-400 font-semibold">RD$</strong>.
+          </p>
+
+          <div class="motion-cta flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 pt-1">
+            <a href="#reservar"
+              class="press group bg-gold-400 hover:bg-gold-300 pl-6 pr-2 py-2 rounded-full flex items-center gap-4 shadow-lg shadow-black/50 hover:shadow-[0_0_30px_rgba(201,162,74,0.35)] transition-all duration-300">
+              <span class="font-sans font-semibold text-lg text-[#120c08]">Reservar cita</span>
+              <span
+                class="w-10 h-10 rounded-full bg-[#120c08] flex items-center justify-center transition-transform group-hover:translate-x-0.5">
+                <i data-lucide="arrow-right" class="w-5 h-5 text-gold-300"></i>
+              </span>
+            </a>
+
+            <a href="#servicios"
+              class="group flex items-center gap-2 text-white/80 hover:text-white bg-black/30 hover:bg-black/50 border border-white/10 backdrop-blur-sm px-5 py-3 rounded-full transition-all font-medium">
+              <span>Ver servicios y precios</span>
+              <i data-lucide="arrow-down" class="w-4 h-4 text-gold-400 group-hover:translate-y-0.5 transition-transform"></i>
+            </a>
+          </div>
+
+          <div class="motion-stats pt-5 grid grid-cols-3 gap-6 border-t border-gold-400/15 w-full max-w-xl">
+            <div>
+              <p class="font-serif text-2xl sm:text-3xl text-gold-400">12+</p>
+              <p class="text-[11px] sm:text-xs text-white/60 uppercase tracking-wider">Años de oficio</p>
+            </div>
+            <div>
+              <p class="font-serif text-2xl sm:text-3xl text-white">1 a 1</p>
+              <p class="text-[11px] sm:text-xs text-white/60 uppercase tracking-wider">Atención personal</p>
+            </div>
+            <div>
+              <p class="font-serif text-2xl sm:text-3xl text-gold-400">4.9 ★</p>
+              <p class="text-[11px] sm:text-xs text-white/60 uppercase tracking-wider">+1,400 clientes</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Indicador de scroll -->
+      <a href="#servicios"
+        class="hidden md:flex absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex-col items-center gap-2 text-[11px] uppercase tracking-[0.25em] text-white/50 hover:text-gold-300 transition-colors"
+        aria-label="Bajar a servicios">
+        Desliza
+        <span class="scroll-cue-line block w-px h-10 bg-white/15"></span>
+      </a>
+    </section>
+
+    <!-- ================= SERVICIOS Y PRECIOS (USD / DOP) ================= -->
+    <section id="servicios" class="relative py-24 px-6 scroll-mt-20">
+      <div class="max-w-7xl mx-auto">
+
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10 reveal">
+          <div>
+            <span class="text-xs uppercase tracking-[0.25em] text-gold-400 font-semibold">Menú de Peluquería &amp;
+              Barbería</span>
+            <h2 class="font-serif italic text-4xl sm:text-6xl text-white mt-3 leading-[1.1] pb-1">Cortes, Barba y Faciales</h2>
+          </div>
+
+          <div class="glass-panel rounded-full p-1.5 flex items-center gap-1 self-start lg:self-auto">
+            <span class="text-xs text-white/60 px-3 hidden sm:inline">Ver precios en:</span>
+            <button type="button" data-currency-btn="USD"
+              class="currency-switch px-3.5 py-1.5 rounded-full text-xs font-bold bg-gold-400 text-black transition-all">Dólares
+              (USD $)</button>
+            <button type="button" data-currency-btn="DOP"
+              class="currency-switch px-3.5 py-1.5 rounded-full text-xs font-bold text-white/80 hover:text-white transition-all">Pesos
+              Dom. (RD$)</button>
+            <button type="button" data-currency-btn="BOTH"
+              class="currency-switch px-3.5 py-1.5 rounded-full text-xs font-bold text-white/80 hover:text-white transition-all">Ambos</button>
+          </div>
+        </div>
+
+        <!-- Nota de duración -->
+        <div
+          class="reveal mb-8 rounded-2xl bg-gold-400/[0.07] border border-gold-400/25 p-4 flex items-start sm:items-center gap-3">
+          <i data-lucide="clock" class="w-5 h-5 text-gold-400 shrink-0 mt-0.5 sm:mt-0"></i>
+          <p class="text-xs sm:text-sm text-white/80 leading-relaxed">
+            <strong class="text-gold-400">Nota sobre la duración:</strong> los tiempos de servicio varían y solo son una
+            idea general; el tiempo real puede ser menor según tu tipo de cabello o estilo.
+          </p>
+        </div>
+
+        <!-- Filtros -->
+        <div class="flex flex-wrap gap-2 mb-10 reveal" id="service-filters" role="group" aria-label="Filtrar servicios">
+          <button type="button" data-filter="all"
+            class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-cream text-black transition-all">Todos</button>
+          <button type="button" data-filter="corte"
+            class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-white/5 text-white/75 hover:bg-white/10 transition-all">Cortes
+            y degradados</button>
+          <button type="button" data-filter="barba"
+            class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-white/5 text-white/75 hover:bg-white/10 transition-all">Barba
+            y navaja</button>
+          <button type="button" data-filter="facial"
+            class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-white/5 text-white/75 hover:bg-white/10 transition-all">Faciales</button>
+          <button type="button" data-filter="completo"
+            class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-white/5 text-white/75 hover:bg-white/10 transition-all">Paquetes
+            completos</button>
+        </div>
+
+        <!-- Grid dinámico -->
+        <div id="services-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Renderizado por JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <div class="ornament max-w-xs mx-auto px-6" aria-hidden="true"><span></span><i data-lucide="scissors"
+        class="w-4 h-4"></i><span></span></div>
+
+    <!-- ================= SOBRE MÍ / TU BARBERO ================= -->
+    <section id="sobre-mi" class="relative py-24 px-6 scroll-mt-20">
+      <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-16 items-center">
+
+        <!-- Retrato -->
+        <div class="lg:col-span-5 reveal">
+          <figure class="portrait-frame relative max-w-sm mx-auto lg:max-w-none mr-6 lg:mr-0">
+            <img src="assets/barbero-retrato.jpg" alt="Marco Valerio, barbero profesional, sosteniendo una navaja clásica"
+              loading="lazy" class="w-full aspect-[3/4] object-cover rounded-[28px] shadow-2xl shadow-black/60">
+            <div class="absolute inset-0 rounded-[28px] bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+
+            <figcaption
+              class="absolute left-4 bottom-4 right-4 sm:right-auto flex items-center gap-3 px-4 py-3 rounded-2xl glass-panel">
+              <div class="w-9 h-9 rounded-full bg-gold-400 text-black flex items-center justify-center shrink-0">
+                <i data-lucide="award" class="w-5 h-5"></i>
+              </div>
+              <div class="leading-tight">
+                <p class="text-sm font-semibold text-white">★ 4.9 · +1,400 clientes</p>
+                <p class="text-xs text-white/60">Detrás de la silla desde 2014</p>
+              </div>
+            </figcaption>
+          </figure>
+        </div>
+
+        <!-- Bio -->
+        <div class="lg:col-span-7 reveal delay-1">
+          <span class="text-xs uppercase tracking-[0.25em] text-gold-400 font-semibold">Sobre mí · Tu barbero</span>
+          <h2 class="font-serif italic text-5xl sm:text-6xl text-white mt-3 leading-[1.1] pb-1">Marco Valerio</h2>
+          <p class="mt-2 text-gold-300 text-base sm:text-lg">
+            Especialista en corte clásico a tijera, skin fade y barba a navaja
+          </p>
+
+          <div class="mt-6 space-y-4 text-white/70 leading-relaxed max-w-[62ch]">
+            <p>
+              Llevo más de doce años perfeccionando cortes ejecutivos, degradados limpios y perfilados de barba a navaja
+              libre. Trabajo solo y con cita previa para dedicarte el tiempo completo de tu servicio.
+            </p>
+            <p>
+              Antes de tomar la tijera te escucho, reviso tu tipo de cabello y la forma de tu rostro, y te recomiendo lo
+              que mejor te va. No paso al siguiente cliente hasta que sales impecable.
+            </p>
+          </div>
+
+          <blockquote class="mt-6 pl-5 border-l-2 border-gold-400/60 font-serif italic text-xl text-cream/90">
+            “Un buen corte no se apura.”
+          </blockquote>
+
+          <!-- Datos clave -->
+          <dl class="mt-8 grid grid-cols-3 gap-3 sm:gap-4">
+            <div class="rounded-2xl bg-white/[0.03] border border-gold-400/15 p-4">
+              <dt class="text-[11px] uppercase tracking-wider text-white/50">Experiencia</dt>
+              <dd class="font-serif text-3xl text-gold-400 mt-1">12+ <span class="text-sm font-sans text-white/60">años</span></dd>
+            </div>
+            <div class="rounded-2xl bg-white/[0.03] border border-gold-400/15 p-4">
+              <dt class="text-[11px] uppercase tracking-wider text-white/50">Especialidad</dt>
+              <dd class="font-serif text-xl sm:text-2xl text-white mt-1 leading-tight">Fade &amp; Navaja</dd>
+            </div>
+            <div class="rounded-2xl bg-white/[0.03] border border-gold-400/15 p-4">
+              <dt class="text-[11px] uppercase tracking-wider text-white/50">Atención</dt>
+              <dd class="font-serif text-xl sm:text-2xl text-white mt-1 leading-tight">1 cliente a la vez</dd>
+            </div>
+          </dl>
+
+          <ul class="mt-6 flex flex-wrap gap-2" aria-label="Técnicas que domino">
+            <li class="px-3 py-1.5 rounded-full text-xs bg-gold-400/10 text-gold-300 border border-gold-400/25">Corte clásico a tijera</li>
+            <li class="px-3 py-1.5 rounded-full text-xs bg-gold-400/10 text-gold-300 border border-gold-400/25">Skin &amp; Taper Fade</li>
+            <li class="px-3 py-1.5 rounded-full text-xs bg-gold-400/10 text-gold-300 border border-gold-400/25">Barba a navaja libre</li>
+            <li class="px-3 py-1.5 rounded-full text-xs bg-gold-400/10 text-gold-300 border border-gold-400/25">Toalla caliente</li>
+            <li class="px-3 py-1.5 rounded-full text-xs bg-gold-400/10 text-gold-300 border border-gold-400/25">Faciales</li>
+          </ul>
+
+          <div class="mt-8 flex flex-col sm:flex-row gap-3">
+            <a href="#reservar"
+              class="press inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-gold-400 hover:bg-gold-300 text-black font-semibold transition-colors">
+              <i data-lucide="calendar-days" class="w-4 h-4"></i> Reservar cita
+            </a>
+            <a data-wa="" href="https://wa.me/18095550199" target="_blank" rel="noopener"
+              class="press inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/15 text-white font-semibold transition-colors">
+              <svg class="w-4 h-4 text-[#25D366]" aria-hidden="true"><use href="#icon-whatsapp"></use></svg>
+              Escribirme por WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="ornament max-w-xs mx-auto px-6" aria-hidden="true"><span></span><i data-lucide="scissors"
+        class="w-4 h-4"></i><span></span></div>
+
+    <!-- ================= SISTEMA DE RESERVA DE CITAS ================= -->
+    <section id="reservar" class="py-24 px-6 relative overflow-hidden scroll-mt-20">
+      <div
+        class="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-gold-500/10 blur-[140px] rounded-full pointer-events-none"
+        aria-hidden="true"></div>
+
+      <div class="max-w-6xl mx-auto relative z-10">
+        <div class="text-center max-w-2xl mx-auto mb-12 reveal">
+          <h2 class="font-serif italic text-4xl sm:text-6xl text-white leading-[1.1] pb-1">Agenda tu Silla</h2>
+          <p class="text-white/70 mt-3">
+            Elige el servicio, la fecha y la hora que te convenga; del resto me encargo yo. Ves el total en
+            <strong class="text-gold-400">USD ($)</strong> o <strong class="text-gold-400">RD$</strong> en todo momento.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <!-- Formulario -->
+          <form id="booking-form" novalidate
+            class="reveal lg:col-span-8 glass-panel rounded-3xl p-6 sm:p-8 space-y-7">
+
+            <!-- 1. Servicio -->
+            <div>
+              <label for="booking-service"
+                class="block text-xs uppercase tracking-wider text-gold-400 font-semibold mb-2">1. Elige el servicio *</label>
+              <select id="booking-service" required
+                class="w-full rounded-xl bg-black/50 border border-white/15 px-4 py-3.5 text-sm text-white focus:outline-none focus:border-gold-400 transition-colors">
+                <!-- Se llena dinámicamente -->
+              </select>
+            </div>
+
+            <!-- 2. Fecha + 3. Hora -->
+            <div class="grid grid-cols-1 sm:grid-cols-5 gap-5">
+              <div class="sm:col-span-2">
+                <label for="booking-date"
+                  class="block text-xs uppercase tracking-wider text-gold-400 font-semibold mb-2">2. Fecha *</label>
+                <input type="date" id="booking-date" required
+                  class="w-full rounded-xl bg-black/50 border border-white/15 px-4 py-3.5 text-sm text-white focus:outline-none focus:border-gold-400 transition-colors">
+                <p class="mt-2 text-xs text-white/50">Atiendo de lunes a sábado.</p>
+              </div>
+
+              <div class="sm:col-span-3">
+                <span id="time-label" class="block text-xs uppercase tracking-wider text-gold-400 font-semibold mb-2">3.
+                  Hora disponible *</span>
+                <div id="time-slots" class="grid grid-cols-3 gap-2" role="radiogroup" aria-labelledby="time-label">
+                  <!-- Generado por JS -->
+                </div>
+                <div id="slots-status" class="hidden mt-3 text-xs text-white/65" aria-live="polite"></div>
+                <p id="time-error" class="hidden mt-2 text-xs text-red-300" role="alert"></p>
+              </div>
+            </div>
+
+            <!-- Datos del cliente -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-6 border-t border-white/10">
+              <div>
+                <label for="client-name" class="block text-xs uppercase tracking-wider text-white/70 font-semibold mb-2">Tu
+                  nombre completo *</label>
+                <input type="text" id="client-name" required autocomplete="name" placeholder="Ej. David Vargas"
+                  class="w-full rounded-xl bg-black/50 border border-white/15 px-4 py-3 text-sm text-white placeholder-white/35 focus:outline-none focus:border-gold-400 transition-colors">
+                <p class="field-error hidden mt-1.5 text-xs text-red-300">Escribe tu nombre para la reserva.</p>
+              </div>
+              <div>
+                <label for="client-phone" class="block text-xs uppercase tracking-wider text-white/70 font-semibold mb-2">Teléfono
+                  / WhatsApp *</label>
+                <input type="tel" id="client-phone" required minlength="7" inputmode="tel" autocomplete="tel"
+                  placeholder="Ej. 809-555-0199"
+                  class="w-full rounded-xl bg-black/50 border border-white/15 px-4 py-3 text-sm text-white placeholder-white/35 focus:outline-none focus:border-gold-400 transition-colors">
+                <p class="field-error hidden mt-1.5 text-xs text-red-300">Necesito un número válido para confirmarte.</p>
+              </div>
+            </div>
+
+            <div>
+              <label for="client-notes" class="block text-xs uppercase tracking-wider text-white/70 font-semibold mb-2">¿Qué
+                estilo buscas? (opcional)</label>
+              <input type="text" id="client-notes" placeholder="Ej. Degradado medio sin bajar mucho la corona..."
+                class="w-full rounded-xl bg-black/50 border border-white/15 px-4 py-3 text-sm text-white placeholder-white/35 focus:outline-none focus:border-gold-400 transition-colors">
+            </div>
+
+            <button type="submit"
+              class="press w-full py-4 rounded-full bg-gold-400 hover:bg-gold-300 text-black font-bold text-base tracking-wide transition-all shadow-lg shadow-black/40 flex items-center justify-center gap-2">
+              <i data-lucide="circle-check" class="w-5 h-5"></i>
+              <span>Confirmar reserva</span>
+            </button>
+          </form>
+
+          <!-- Resumen en tiempo real -->
+          <aside class="reveal delay-1 lg:col-span-4 glass-panel rounded-3xl p-6 sm:p-8 border-gold-400/30 space-y-6 lg:sticky lg:top-28"
+            aria-label="Resumen de tu cita">
+            <div class="flex items-center gap-4 border-b border-white/10 pb-5">
+              <img src="assets/barbero-retrato.jpg" alt="" loading="lazy"
+                class="w-14 h-14 rounded-full object-cover object-top border border-gold-400/50">
+              <div>
+                <span class="text-xs uppercase tracking-widest text-gold-400">Tu ticket</span>
+                <h3 class="font-serif italic text-2xl text-white leading-tight">Resumen de cita</h3>
+                <p class="text-xs text-white/55">Te atiende Marco Valerio</p>
+              </div>
+            </div>
+
+            <dl class="space-y-3 text-sm">
+              <div class="flex justify-between gap-4">
+                <dt class="text-white/60">Servicio:</dt>
+                <dd id="summary-service" class="font-semibold text-white text-right">—</dd>
+              </div>
+              <div class="flex justify-between gap-4">
+                <dt class="text-white/60">Fecha:</dt>
+                <dd id="summary-date" class="font-semibold text-white text-right">—</dd>
+              </div>
+              <div class="flex justify-between gap-4">
+                <dt class="text-white/60">Hora:</dt>
+                <dd id="summary-time" class="font-semibold text-gold-300 text-right">Elige una hora</dd>
+              </div>
+              <div class="flex justify-between gap-4">
+                <dt class="text-white/60">Tiempo estimado:</dt>
+                <dd id="summary-duration" class="font-medium text-white/85 text-right">—</dd>
+              </div>
+            </dl>
+
+            <div class="p-3.5 rounded-xl bg-white/5 border border-white/10 text-xs text-white/70 leading-relaxed">
+              <strong class="text-gold-400">* Nota:</strong> los tiempos de servicio son una idea general; el tiempo real
+              puede ser menor.
+            </div>
+
+            <div class="border-t border-white/10 pt-4 space-y-2">
+              <div class="flex justify-between items-baseline">
+                <span class="text-xs uppercase tracking-wider text-white/60">Total en dólares:</span>
+                <span id="summary-usd" class="font-serif text-3xl text-white">$0 USD</span>
+              </div>
+              <div class="flex justify-between items-baseline">
+                <span class="text-xs uppercase tracking-wider text-gold-400">Total en pesos:</span>
+                <span id="summary-dop" class="font-serif text-3xl text-gold-400">RD$ 0</span>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER + CONTACTO DIRECTO ================= -->
+  <footer id="contacto" class="relative border-t border-gold-400/15 bg-black/40 text-sm text-white/60 scroll-mt-20">
+    <div class="max-w-7xl mx-auto px-6 pt-16 pb-10">
+
+      <!-- Bloque de contacto directo -->
+      <div class="reveal grid grid-cols-1 lg:grid-cols-12 gap-8 items-center rounded-3xl glass-panel p-6 sm:p-10 mb-12">
+        <div class="lg:col-span-7">
+          <h2 class="font-serif italic text-3xl sm:text-4xl text-white leading-[1.15] pb-1">¿Tienes dudas? Escríbeme directo.</h2>
+          <p class="mt-3 text-white/65 max-w-[55ch]">
+            Respondo personalmente tus preguntas sobre estilos, precios o disponibilidad. Sin intermediarios.
+          </p>
+          <div class="mt-6 flex flex-col sm:flex-row gap-3">
+            <a id="footer-whatsapp" data-wa="" href="https://wa.me/18095550199" target="_blank" rel="noopener"
+              class="press group inline-flex items-center justify-center gap-3 pl-2 pr-6 py-2 rounded-full bg-gold-400 hover:bg-gold-300 text-black font-semibold transition-colors">
+              <span class="w-10 h-10 rounded-full bg-[#25D366] text-white flex items-center justify-center">
+                <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-whatsapp"></use></svg>
+              </span>
+              Escribir por WhatsApp
+            </a>
+            <a data-tel href="tel:+18095550199"
+              class="press inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/15 text-white font-semibold transition-colors">
+              <i data-lucide="phone" class="w-4 h-4 text-gold-400"></i>
+              Llamar
+            </a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
+          <div class="rounded-2xl bg-black/30 border border-white/10 p-5">
+            <p class="text-[11px] uppercase tracking-wider text-white/50 flex items-center gap-2">
+              <i data-lucide="phone" class="w-3.5 h-3.5 text-gold-400"></i> Teléfono / WhatsApp
+            </p>
+            <a data-tel href="tel:+18095550199" class="block mt-1.5 font-serif text-2xl text-white hover:text-gold-300 transition-colors"
+              data-phone-text>+1 (809) 555-0199</a>
+          </div>
+          <div class="rounded-2xl bg-black/30 border border-white/10 p-5">
+            <p class="text-[11px] uppercase tracking-wider text-white/50 flex items-center gap-2">
+              <i data-lucide="clock" class="w-3.5 h-3.5 text-gold-400"></i> Horario
+            </p>
+            <p class="mt-1.5 text-white">Lunes a sábado · 9:00 AM a 7:00 PM</p>
+            <p class="text-white/50">Domingo · Cerrado</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Línea legal original -->
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 border-t border-white/10 text-center md:text-left">
+        <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
+          <span class="font-bold tracking-widest text-white">EXCELSIOR BARBERÍA</span>
+          <span class="hidden sm:inline">•</span>
+          <span>Precios disponibles en USD ($) y Peso Dominicano (RD$)</span>
+        </div>
+        <p>© 2026 Excelsior Salón &amp; Barbería Clásica. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= BOTÓN FLOTANTE DE WHATSAPP ================= -->
+  <a id="whatsapp-fab" data-wa="" href="https://wa.me/18095550199" target="_blank" rel="noopener"
+    class="group fixed bottom-5 right-5 z-40 flex items-center gap-3" aria-label="Escríbeme por WhatsApp">
+    <span
+      class="hidden sm:block opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 px-3 py-2 rounded-full glass-panel text-xs font-semibold text-white whitespace-nowrap">
+      ¿Dudas? Escríbeme
+    </span>
+    <span
+      class="wa-pulse relative isolate w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-xl shadow-black/50 group-hover:scale-105 transition-transform">
+      <svg class="w-7 h-7" aria-hidden="true"><use href="#icon-whatsapp"></use></svg>
+    </span>
+  </a>
+
+  <!-- ================= MODAL: CITA CONFIRMADA ================= -->
+  <div id="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirm-title"
+    class="modal fixed inset-0 z-[60] hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+    <div class="glass-panel rounded-3xl max-w-md w-full p-6 sm:p-8 border-gold-400/40 text-center">
+      <div class="mx-auto w-14 h-14 rounded-full bg-gold-400 text-black flex items-center justify-center">
+        <i data-lucide="calendar-check" class="w-7 h-7"></i>
+      </div>
+      <h3 id="confirm-title" class="font-serif italic text-3xl text-white mt-4 leading-tight">¡Tu cita quedó reservada!</h3>
+      <dl id="confirm-details" class="mt-5 text-sm text-left space-y-2 rounded-2xl bg-black/30 border border-white/10 p-4"></dl>
+      <p class="mt-4 text-sm text-white/65">Envíame la confirmación por WhatsApp para asegurar tu turno. Te respondo en
+        cuanto termine con el cliente en silla.</p>
+      <div class="mt-6 flex flex-col gap-3">
+        <a id="confirm-whatsapp" href="#" target="_blank" rel="noopener" data-autofocus
+          class="press inline-flex items-center justify-center gap-3 pl-2 pr-6 py-2 rounded-full bg-gold-400 hover:bg-gold-300 text-black font-semibold transition-colors">
+          <span class="w-10 h-10 rounded-full bg-[#25D366] text-white flex items-center justify-center">
+            <svg class="w-5 h-5" aria-hidden="true"><use href="#icon-whatsapp"></use></svg>
+          </span>
+          Confirmar por WhatsApp
+        </a>
+        <button type="button" data-close-modal
+          class="px-5 py-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white text-sm font-semibold transition-colors">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: MIS CITAS ================= -->
+  <div id="appointments-modal" role="dialog" aria-modal="true" aria-labelledby="appointments-title"
+    class="modal fixed inset-0 z-[60] hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+    <div class="glass-panel rounded-3xl max-w-lg w-full p-6 sm:p-8 border-gold-400/40 relative">
+      <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-5">
+        <div>
+          <span class="text-xs uppercase tracking-widest text-gold-400">Guardadas en este dispositivo</span>
+          <h3 id="appointments-title" class="font-serif italic text-3xl text-white">Mis citas</h3>
+        </div>
+        <button type="button" data-close-modal data-autofocus aria-label="Cerrar"
+          class="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div id="appointments-list" class="space-y-3 max-h-80 overflow-y-auto pr-1"></div>
+
+      <div class="mt-6 pt-4 border-t border-white/10 flex justify-end">
+        <button type="button" data-close-modal
+          class="px-5 py-2.5 rounded-full bg-cream text-black font-semibold text-sm hover:bg-gold-400 transition-colors">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= TOAST ================= -->
+  <div id="toast" role="status" aria-live="polite"
+    class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[70] hidden items-center gap-3 px-5 py-4 rounded-2xl bg-gold-400 text-black font-semibold shadow-2xl max-w-[90vw]">
+    <i data-lucide="circle-check" class="w-5 h-5 shrink-0"></i>
+    <span id="toast-msg"></span>
+  </div>
+
+  <!-- ================= LÓGICA JAVASCRIPT ================= -->
+  <script>
+    // ─────────────────────────────────────────────────────────────
+    // CONFIGURACIÓN DEL BARBERO (edita aquí tu número y días libres)
+    // ─────────────────────────────────────────────────────────────
+    const BARBER = {
+      name: 'Marco Valerio',
+      phoneDisplay: '+1 (809) 555-0199',
+      phoneE164: '18095550199', // Solo dígitos con código de país (formato wa.me)
+      waGreeting: 'Hola Marco, vi tu página web y tengo una consulta:',
+      closedDays: [0] // 0 = domingo, 1 = lunes, ... 6 = sábado
+    };
+
+    // Catálogo de servicios
+    const SERVICES = [
+      {
+        id: 'corte-clasico',
+        category: 'corte',
+        name: 'Corte Clásico de Precisión',
+        desc: 'Corte tradicional o ejecutivo a tijera y máquina, lavado capilar refrescante, contornos a navaja y peinado con pomada.',
+        usd: 18,
+        dop: 1080,
+        duration: '35 - 45 min aprox.',
+        badge: 'Más solicitado'
+      },
+      {
+        id: 'skin-fade',
+        category: 'corte',
+        name: 'Skin Fade / Degradado a Navaja',
+        desc: 'Degradado alto, medio o bajo (Low, Mid, High o Taper Fade) con transición pulida a cero o shaver y diseño de contornos.',
+        usd: 22,
+        dop: 1320,
+        duration: '40 - 45 min aprox.',
+        badge: 'Tendencia'
+      },
+      {
+        id: 'ritual-barba',
+        category: 'barba',
+        name: 'Perfilado de Barba & Toalla Caliente',
+        desc: 'Esculpo tu barba de forma simétrica según tu rostro, con toalla caliente aromática, afeitado a navaja libre y bálsamo hidratante.',
+        usd: 15,
+        dop: 900,
+        duration: '25 - 30 min aprox.',
+        badge: 'Tradición'
+      },
+      {
+        id: 'afeitado-clasico',
+        category: 'barba',
+        name: 'Afeitado Clásico Real al Ras',
+        desc: 'Espuma tibia batida con brocha, doble pasada a navaja clásica, compresa fría para cerrar poros y loción aftershave.',
+        usd: 16,
+        dop: 960,
+        duration: '25 - 30 min aprox.',
+        badge: 'Clásico'
+      },
+      {
+        id: 'facial-purificante',
+        category: 'facial',
+        name: 'Facial Purificante Masculino',
+        desc: 'Limpieza profunda con vapor, exfoliación suave, mascarilla negra purificante y toalla fría. Piel limpia y descansada.',
+        usd: 20,
+        dop: 1200,
+        duration: '30 - 35 min aprox.',
+        badge: 'Facial'
+      },
+      {
+        id: 'corte-barba-excelsior',
+        category: 'completo',
+        name: 'Servicio Completo: Corte + Barba',
+        desc: 'Mi servicio insignia: corte personalizado o degradado, más perfilado completo de barba con toalla caliente y navaja.',
+        usd: 30,
+        dop: 1800,
+        duration: '50 - 60 min aprox.',
+        badge: 'Recomendado'
+      },
+      {
+        id: 'gran-ritual',
+        category: 'completo',
+        name: 'Gran Ritual Excelsior (Corte + Barba + Facial)',
+        desc: 'La experiencia completa en mi silla: corte de autor, perfilado de barba con vapor de ozono, facial con mascarilla negra purificante y masaje capilar relajante.',
+        usd: 38,
+        dop: 2280,
+        duration: '60 - 70 min aprox.',
+        badge: 'VIP',
+        featured: true
+      }
+    ];
+
+    // Horarios espaciados para que un solo barbero cubra hasta el servicio más largo
+    const TIME_SLOTS = ['09:30 AM', '11:00 AM', '01:30 PM', '03:00 PM', '04:30 PM', '06:00 PM'];
+    const STORAGE_KEY = 'excelsior_citas';
+    const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    let currentCurrency = 'USD'; // 'USD' | 'DOP' | 'BOTH'
+    let currentFilter = 'all';
+    let selectedTimeSlot = null;
+    let appointments = loadAppointments();
+    let toastTimer = null;
+
+    // ───────────── Utilidades ─────────────
+    function loadAppointments() {
+      try {
+        const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        return Array.isArray(data) ? data : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveAppointments() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(appointments));
+    }
+
+    function escapeHtml(value = '') {
+      return String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    function waLink(text) {
+      return `https://wa.me/${BARBER.phoneE164}${text ? `?text=${encodeURIComponent(text)}` : ''}`;
+    }
+
+    // Fecha local en formato YYYY-MM-DD (evita el desfase de toISOString en UTC)
+    function toLocalISODate(date = new Date()) {
+      const offset = date.getTimezoneOffset();
+      return new Date(date.getTime() - offset * 60000).toISOString().split('T')[0];
+    }
+
+    function parseISODate(iso) {
+      const [y, m, d] = iso.split('-').map(Number);
+      return new Date(y, m - 1, d);
+    }
+
+    function formatHumanDate(iso) {
+      if (!iso) return '—';
+      const text = parseISODate(iso).toLocaleDateString('es-DO', { weekday: 'long', day: 'numeric', month: 'long' });
+      return text.charAt(0).toUpperCase() + text.slice(1);
+    }
+
+    function slotToMinutes(slot) {
+      const [time, meridiem] = slot.split(' ');
+      let [h, m] = time.split(':').map(Number);
+      if (meridiem === 'PM' && h !== 12) h += 12;
+      if (meridiem === 'AM' && h === 12) h = 0;
+      return h * 60 + m;
+    }
+
+    function isClosedDay(iso) {
+      return BARBER.closedDays.includes(parseISODate(iso).getDay());
+    }
+
+    // 'free' | 'booked' | 'past'
+    function getSlotState(iso, slot) {
+      if (appointments.some(a => a.date === iso && a.time === slot)) return 'booked';
+      if (iso === toLocalISODate()) {
+        const now = new Date();
+        if (slotToMinutes(slot) <= now.getHours() * 60 + now.getMinutes() + 30) return 'past';
+      }
+      return 'free';
+    }
+
+    function hasFreeSlot(iso) {
+      return !isClosedDay(iso) && TIME_SLOTS.some(slot => getSlotState(iso, slot) === 'free');
+    }
+
+    function findNextAvailableDate(fromIso) {
+      const cursor = parseISODate(fromIso);
+      for (let i = 0; i < 60; i++) {
+        const iso = toLocalISODate(cursor);
+        if (hasFreeSlot(iso)) return iso;
+        cursor.setDate(cursor.getDate() + 1);
+      }
+      return fromIso;
+    }
+
+    function getService(id) {
+      return SERVICES.find(s => s.id === id) || SERVICES[0];
+    }
+
+    // ───────────── Servicios ─────────────
+    function formatServicePrice(usd, dop, mode = currentCurrency) {
+      const dopFormatted = `RD$ ${dop.toLocaleString('es-DO')}`;
+      const usdFormatted = `$${usd} USD`;
+      if (mode === 'USD') return usdFormatted;
+      if (mode === 'DOP') return dopFormatted;
+      return `${usdFormatted} <span class="text-sm text-white/60 font-sans font-normal">/ ${dopFormatted}</span>`;
+    }
+
+    function serviceCard(s) {
+      return `
+        <article class="glass-panel rounded-3xl p-6 hover:border-gold-400/50 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-4">
+              <span class="px-3 py-1 rounded-full text-[11px] uppercase tracking-wider font-semibold bg-gold-400/10 text-gold-300 border border-gold-400/25">${s.badge}</span>
+              <span class="text-xs text-white/55 flex items-center gap-1" title="Tiempo estimado sujeto a variación">
+                <i data-lucide="clock" class="w-3.5 h-3.5 text-gold-400"></i> ${s.duration}
+              </span>
+            </div>
+            <h3 class="text-xl font-bold text-white group-hover:text-gold-300 transition-colors">${s.name}</h3>
+            <p class="text-sm text-white/65 mt-2 leading-relaxed">${s.desc}</p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between gap-3">
+            <div>
+              <span class="block text-[10px] uppercase tracking-wider text-white/45">Precio</span>
+              <div class="font-serif text-3xl text-gold-400">${formatServicePrice(s.usd, s.dop)}</div>
+            </div>
+            <button type="button" onclick="chooseServiceForBooking('${s.id}')" class="press shrink-0 px-4 py-2.5 rounded-full bg-cream text-black hover:bg-gold-400 font-semibold text-xs uppercase tracking-wider transition-colors">
+              Elegir
+            </button>
+          </div>
+        </article>`;
+    }
+
+    function featuredCard(s) {
+      return `
+        <article class="md:col-span-2 lg:col-span-3 relative overflow-hidden rounded-3xl p-6 sm:p-8 border border-gold-400/35 bg-gradient-to-br from-[#2a1912]/95 via-[#1a110c]/95 to-[#0c0806]/95 hover:border-gold-400/60 transition-colors flex flex-col lg:flex-row lg:items-center gap-6 lg:gap-12 group">
+          <div class="absolute -right-24 -top-24 w-72 h-72 rounded-full bg-gold-400/10 blur-3xl pointer-events-none"></div>
+          <div class="relative flex-1">
+            <div class="flex flex-wrap items-center gap-3 mb-4">
+              <span class="px-3 py-1 rounded-full text-[11px] uppercase tracking-wider font-bold bg-gold-400 text-black">${s.badge}</span>
+              <span class="text-xs text-white/60 flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5 text-gold-400"></i> ${s.duration}</span>
+            </div>
+            <h3 class="font-serif italic text-3xl sm:text-4xl text-white leading-[1.15] pb-1">${s.name}</h3>
+            <p class="text-sm sm:text-base text-white/70 mt-3 leading-relaxed max-w-[65ch]">${s.desc}</p>
+          </div>
+          <div class="relative flex flex-row lg:flex-col items-center lg:items-end justify-between gap-4 lg:min-w-[220px] pt-5 lg:pt-0 border-t lg:border-t-0 lg:border-l border-white/10 lg:pl-10">
+            <div class="lg:text-right">
+              <span class="block text-[10px] uppercase tracking-wider text-white/45">Precio</span>
+              <div class="font-serif text-4xl text-gold-400">${formatServicePrice(s.usd, s.dop)}</div>
+            </div>
+            <button type="button" onclick="chooseServiceForBooking('${s.id}')" class="press px-6 py-3 rounded-full bg-gold-400 text-black hover:bg-gold-300 font-semibold text-sm transition-colors">
+              Reservar este ritual
+            </button>
+          </div>
+        </article>`;
+    }
+
+    function renderServices() {
+      const grid = document.getElementById('services-grid');
+      const filtered = currentFilter === 'all' ? SERVICES : SERVICES.filter(s => s.category === currentFilter);
+      grid.innerHTML = filtered.map(s => (s.featured ? featuredCard(s) : serviceCard(s))).join('');
+      lucide.createIcons();
+    }
+
+    function populateBookingSelect() {
+      const select = document.getElementById('booking-service');
+      const currentVal = select.value || SERVICES[0].id;
+      select.innerHTML = SERVICES.map(s => {
+        const labelPrice = currentCurrency === 'DOP'
+          ? `RD$ ${s.dop.toLocaleString('es-DO')}`
+          : currentCurrency === 'USD'
+            ? `$${s.usd} USD`
+            : `$${s.usd} USD / RD$ ${s.dop.toLocaleString('es-DO')}`;
+        return `<option value="${s.id}">${s.name} · ${labelPrice}</option>`;
+      }).join('');
+      select.value = currentVal;
+      updateBookingSummary();
+    }
+
+    // ───────────── Horarios ─────────────
+    function showSlotsStatus(message, withNextButton = false) {
+      const status = document.getElementById('slots-status');
+      status.innerHTML = `
+        <span>${message}</span>
+        ${withNextButton ? `<button type="button" data-next-day class="ml-1 font-semibold text-gold-300 hover:text-gold-200 underline underline-offset-4">Ver el siguiente día disponible →</button>` : ''}`;
+      status.classList.remove('hidden');
+    }
+
+    function renderTimeSlots() {
+      const container = document.getElementById('time-slots');
+      const status = document.getElementById('slots-status');
+      const iso = document.getElementById('booking-date').value;
+      status.classList.add('hidden');
+      status.innerHTML = '';
+
+      if (!iso) {
+        container.innerHTML = '';
+        selectedTimeSlot = null;
+        showSlotsStatus('Elige una fecha para ver mis horas libres.');
+        updateBookingSummary();
+        return;
+      }
+
+      if (isClosedDay(iso)) {
+        container.innerHTML = '';
+        selectedTimeSlot = null;
+        const day = parseISODate(iso).toLocaleDateString('es-DO', { weekday: 'long' });
+        showSlotsStatus(`Los ${day}${day.endsWith('s') ? '' : 's'} no atiendo.`, true);
+        updateBookingSummary();
+        return;
+      }
+
+      if (selectedTimeSlot && getSlotState(iso, selectedTimeSlot) !== 'free') selectedTimeSlot = null;
+
+      container.innerHTML = TIME_SLOTS.map(slot => {
+        const state = getSlotState(iso, slot);
+        const active = slot === selectedTimeSlot;
+        const disabled = state !== 'free';
+        const label = state === 'booked' ? 'Ocupada' : state === 'past' ? 'No disponible' : 'Disponible';
+        const cls = active
+          ? 'bg-gold-400 text-black border-gold-400 shadow-[0_0_20px_rgba(201,162,74,0.35)]'
+          : disabled
+            ? 'bg-transparent text-white/25 border-white/5 cursor-not-allowed'
+            : 'bg-black/40 text-white/85 border-white/15 hover:border-gold-400/60 hover:text-white';
+        return `
+          <button type="button" role="radio" aria-checked="${active}" data-slot="${slot}" ${disabled ? 'disabled' : ''}
+            aria-label="${slot}, ${label}"
+            class="press py-2.5 px-2 rounded-full text-xs font-semibold border transition-all ${cls}">
+            <span class="${disabled ? 'line-through' : ''}">${slot}</span>
+            ${state === 'booked' ? '<span class="block text-[10px] font-normal no-underline">Ocupada</span>' : ''}
+          </button>`;
+      }).join('');
+
+      if (!hasFreeSlot(iso)) showSlotsStatus('No me quedan horas libres este día.', true);
+      updateBookingSummary();
+    }
+
+    function showTimeError(message) {
+      const err = document.getElementById('time-error');
+      err.textContent = message;
+      err.classList.remove('hidden');
+    }
+
+    function hideTimeError() {
+      document.getElementById('time-error').classList.add('hidden');
+    }
+
+    window.chooseServiceForBooking = function (serviceId) {
+      document.getElementById('booking-service').value = serviceId;
+      updateBookingSummary();
+      document.getElementById('reservar').scrollIntoView({ behavior: REDUCED_MOTION ? 'auto' : 'smooth' });
+      showToast(`${getService(serviceId).name} seleccionado`);
+    };
+
+    function updateBookingSummary() {
+      const service = getService(document.getElementById('booking-service').value);
+      const iso = document.getElementById('booking-date').value;
+      document.getElementById('summary-service').textContent = service.name;
+      document.getElementById('summary-date').textContent = formatHumanDate(iso);
+      document.getElementById('summary-time').textContent = selectedTimeSlot || 'Elige una hora';
+      document.getElementById('summary-duration').textContent = service.duration;
+      document.getElementById('summary-usd').textContent = `$${service.usd} USD`;
+      document.getElementById('summary-dop').textContent = `RD$ ${service.dop.toLocaleString('es-DO')}`;
+    }
+
+    // ───────────── Moneda ─────────────
+    function setCurrency(mode) {
+      currentCurrency = mode;
+      document.querySelectorAll('.currency-switch').forEach(btn => {
+        const active = btn.getAttribute('data-currency-btn') === mode;
+        btn.classList.toggle('bg-gold-400', active);
+        btn.classList.toggle('text-black', active);
+        btn.classList.toggle('text-white/80', !active);
+        btn.setAttribute('aria-pressed', String(active));
+      });
+      renderServices();
+      populateBookingSelect();
+    }
+
+    // ───────────── Toast y modales ─────────────
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-msg').textContent = msg;
+      toast.classList.remove('hidden');
+      toast.classList.add('flex');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.add('hidden');
+        toast.classList.remove('flex');
+      }, 3400);
+    }
+
+    let lastFocused = null;
+
+    function openModal(modal) {
+      lastFocused = document.activeElement;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+      const target = modal.querySelector('[data-autofocus]');
+      if (target) target.focus();
+    }
+
+    function closeModal(modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+      if (lastFocused) lastFocused.focus();
+    }
+
+    function buildWhatsAppMessage(apt) {
+      const firstName = BARBER.name.split(' ')[0];
+      return [
+        `Hola ${firstName}, acabo de reservar una cita desde tu web:`,
+        '',
+        `• Servicio: ${apt.serviceName}`,
+        `• Fecha: ${formatHumanDate(apt.date)}`,
+        `• Hora: ${apt.time}`,
+        `• Total: $${apt.usd} USD / RD$ ${apt.dop.toLocaleString('es-DO')}`,
+        `• Nombre: ${apt.clientName}`,
+        `• Teléfono: ${apt.clientPhone}`,
+        apt.notes ? `• Estilo: ${apt.notes}` : null,
+        '',
+        '¿Me la confirmas, por favor?'
+      ].filter(line => line !== null).join('\n');
+    }
+
+    function openConfirmModal(apt) {
+      const rows = [
+        ['Servicio', apt.serviceName],
+        ['Fecha', formatHumanDate(apt.date)],
+        ['Hora', apt.time],
+        ['Total', `$${apt.usd} USD / RD$ ${apt.dop.toLocaleString('es-DO')}`]
+      ];
+      document.getElementById('confirm-details').innerHTML = rows.map(([k, v]) => `
+        <div class="flex justify-between gap-4">
+          <dt class="text-white/55">${k}</dt>
+          <dd class="font-semibold text-white text-right">${escapeHtml(v)}</dd>
+        </div>`).join('');
+      document.getElementById('confirm-whatsapp').href = waLink(buildWhatsAppMessage(apt));
+      openModal(document.getElementById('confirm-modal'));
+    }
+
+    function renderAppointmentsModal() {
+      document.getElementById('appointments-badge').textContent = appointments.length;
+      const list = document.getElementById('appointments-list');
+
+      if (appointments.length === 0) {
+        list.innerHTML = `
+          <div class="text-center py-10">
+            <i data-lucide="calendar-days" class="w-8 h-8 text-gold-400/60 mx-auto"></i>
+            <p class="text-sm text-white/55 mt-3">Aún no tienes citas conmigo.</p>
+            <a href="#reservar" data-close-modal class="inline-block mt-4 text-sm font-semibold text-gold-300 underline underline-offset-4">Reservar mi primera cita</a>
+          </div>`;
+        lucide.createIcons();
+        return;
+      }
+
+      list.innerHTML = appointments.map((apt, idx) => `
+        <div class="p-4 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between gap-4">
+          <div class="min-w-0">
+            <p class="font-bold text-white text-sm">${escapeHtml(apt.serviceName)}</p>
+            <p class="text-xs text-gold-400">${escapeHtml(formatHumanDate(apt.date))} · ${escapeHtml(apt.time)}</p>
+            <p class="text-xs text-white/60 mt-1 truncate">${escapeHtml(apt.clientName)} (${escapeHtml(apt.clientPhone)})</p>
+            <p class="text-xs font-semibold text-white mt-1">$${Number(apt.usd)} USD / RD$ ${Number(apt.dop).toLocaleString('es-DO')}</p>
+          </div>
+          <div class="flex flex-col gap-2 shrink-0">
+            <a href="${waLink(buildWhatsAppMessage(apt))}" target="_blank" rel="noopener" class="text-xs px-3 py-1.5 rounded-full bg-[#25D366]/15 text-[#7ee2a5] hover:bg-[#25D366] hover:text-white transition-colors inline-flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5" aria-hidden="true"><use href="#icon-whatsapp"></use></svg> Enviar
+            </a>
+            <button type="button" onclick="cancelAppointment(${idx})" class="text-xs px-3 py-1.5 rounded-full bg-red-500/15 text-red-300 hover:bg-red-500 hover:text-white transition-colors">
+              Cancelar
+            </button>
+          </div>
+        </div>`).join('');
+    }
+
+    window.cancelAppointment = function (index) {
+      appointments.splice(index, 1);
+      saveAppointments();
+      renderAppointmentsModal();
+      renderTimeSlots(); // libera la hora en el calendario
+      showToast('Cita cancelada correctamente');
+    };
+
+    // Aplica teléfono y enlaces de WhatsApp desde la configuración
+    function applyContactInfo() {
+      document.querySelectorAll('[data-wa]').forEach(a => {
+        a.href = waLink(a.dataset.wa || BARBER.waGreeting);
+      });
+      document.querySelectorAll('[data-tel]').forEach(a => { a.href = `tel:+${BARBER.phoneE164}`; });
+      document.querySelectorAll('[data-phone-text]').forEach(el => { el.textContent = BARBER.phoneDisplay; });
+    }
+
+    // ───────────── Fondo animado del hero: polvo dorado bajo la luz ─────────────
+    function initHeroDust() {
+      const canvas = document.getElementById('hero-dust');
+      const hero = document.getElementById('inicio');
+      if (!canvas || !hero) return;
+      const ctx = canvas.getContext('2d');
+      let width = 0, height = 0, particles = [], running = false, rafId = null;
+
+      function spawn(initial) {
+        const bokeh = Math.random() < 0.12;
+        return {
+          // Más partículas hacia la derecha, donde están las lámparas
+          x: Math.pow(Math.random(), 0.6) * width,
+          y: initial ? Math.random() * height : height + 20,
+          r: bokeh ? Math.random() * 10 + 6 : Math.random() * 1.6 + 0.4,
+          vy: -(Math.random() * 0.22 + 0.05),
+          vx: (Math.random() - 0.5) * 0.12,
+          alpha: bokeh ? Math.random() * 0.06 + 0.03 : Math.random() * 0.5 + 0.2,
+          phase: Math.random() * Math.PI * 2
+        };
+      }
+
+      function resize() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        width = canvas.clientWidth;
+        height = canvas.clientHeight;
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const count = Math.round(Math.min(110, (width * height) / 14000));
+        particles = Array.from({ length: count }, () => spawn(true));
+      }
+
+      function draw(t = 0) {
+        ctx.clearRect(0, 0, width, height);
+        for (const p of particles) {
+          if (!REDUCED_MOTION) {
+            p.x += p.vx + Math.sin(t / 3500 + p.phase) * 0.12;
+            p.y += p.vy;
+            p.phase += 0.004;
+            if (p.y < -30 || p.x < -30 || p.x > width + 30) Object.assign(p, spawn(false));
+          }
+          const twinkle = 0.65 + 0.35 * Math.sin(p.phase * 3);
+          ctx.beginPath();
+          ctx.fillStyle = `rgba(236, 206, 140, ${p.alpha * twinkle})`;
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      function loop(t) {
+        draw(t);
+        rafId = requestAnimationFrame(loop);
+      }
+
+      function start() {
+        if (running || REDUCED_MOTION) return;
+        running = true;
+        rafId = requestAnimationFrame(loop);
+      }
+
+      function stop() {
+        running = false;
+        cancelAnimationFrame(rafId);
+      }
+
+      resize();
+      draw();
+      window.addEventListener('resize', () => { resize(); draw(); });
+
+      // Solo anima cuando el hero es visible y la pestaña está activa
+      new IntersectionObserver(([entry]) => (entry.isIntersecting ? start() : stop())).observe(hero);
+      document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+    }
+
+    // Parallax sutil de la imagen del hero con el puntero
+    function initHeroParallax() {
+      if (REDUCED_MOTION || window.matchMedia('(pointer: coarse)').matches) return;
+      const hero = document.getElementById('inicio');
+      const media = document.getElementById('hero-media');
+      let raf = null;
+      hero.addEventListener('pointermove', e => {
+        const r = hero.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => {
+          media.style.transform = `translate3d(${x * -16}px, ${y * -10}px, 0)`;
+        });
+      });
+      hero.addEventListener('pointerleave', () => { media.style.transform = ''; });
+    }
+
+    // Aparición de secciones al hacer scroll
+    function initReveal() {
+      const items = document.querySelectorAll('.reveal');
+      if (REDUCED_MOTION || !('IntersectionObserver' in window)) {
+        items.forEach(el => el.classList.add('is-visible'));
+        return;
+      }
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      items.forEach(el => io.observe(el));
+    }
+
+    // ───────────── Inicialización ─────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      applyContactInfo();
+
+      // Fecha: hoy como mínimo, 60 días como máximo, y arranca en el primer día con horas libres
+      const dateInput = document.getElementById('booking-date');
+      const today = toLocalISODate();
+      const maxDate = new Date();
+      maxDate.setDate(maxDate.getDate() + 60);
+      dateInput.min = today;
+      dateInput.max = toLocalISODate(maxDate);
+      dateInput.value = findNextAvailableDate(today);
+
+      renderServices();
+      populateBookingSelect();
+      renderTimeSlots();
+      renderAppointmentsModal();
+      initHeroDust();
+      initHeroParallax();
+      initReveal();
+
+      // Moneda
+      document.querySelectorAll('.currency-switch').forEach(btn => {
+        btn.addEventListener('click', () => setCurrency(btn.getAttribute('data-currency-btn')));
+      });
+
+      // Filtros de servicios
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentFilter = btn.getAttribute('data-filter');
+          document.querySelectorAll('.filter-btn').forEach(b => {
+            b.classList.remove('bg-cream', 'text-black');
+            b.classList.add('bg-white/5', 'text-white/75');
+          });
+          btn.classList.add('bg-cream', 'text-black');
+          btn.classList.remove('bg-white/5', 'text-white/75');
+          renderServices();
+        });
+      });
+
+      // Formulario
+      document.getElementById('booking-service').addEventListener('change', updateBookingSummary);
+      dateInput.addEventListener('change', () => { hideTimeError(); renderTimeSlots(); });
+
+      document.getElementById('time-slots').addEventListener('click', e => {
+        const btn = e.target.closest('button[data-slot]');
+        if (!btn || btn.disabled) return;
+        selectedTimeSlot = btn.dataset.slot;
+        hideTimeError();
+        renderTimeSlots();
+      });
+
+      document.getElementById('slots-status').addEventListener('click', e => {
+        if (!e.target.closest('[data-next-day]')) return;
+        const next = parseISODate(dateInput.value || today);
+        next.setDate(next.getDate() + 1);
+        dateInput.value = findNextAvailableDate(toLocalISODate(next));
+        renderTimeSlots();
+      });
+
+      // Validación en línea de los campos del cliente
+      const form = document.getElementById('booking-form');
+      const nameInput = document.getElementById('client-name');
+      const phoneInput = document.getElementById('client-phone');
+
+      function validateField(input) {
+        const valid = input.checkValidity() && input.value.trim().length > 0;
+        const msg = input.parentElement.querySelector('.field-error');
+        input.classList.toggle('border-red-400/70', !valid);
+        if (msg) msg.classList.toggle('hidden', valid);
+        return valid;
+      }
+
+      [nameInput, phoneInput].forEach(input => {
+        input.addEventListener('blur', () => { if (input.value) validateField(input); });
+        input.addEventListener('input', () => {
+          if (input.classList.contains('border-red-400/70')) validateField(input);
+        });
+      });
+
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        const iso = dateInput.value;
+
+        if (!iso || isClosedDay(iso)) {
+          showTimeError('Elige un día en el que atienda (lunes a sábado).');
+          return;
+        }
+        if (!selectedTimeSlot || getSlotState(iso, selectedTimeSlot) !== 'free') {
+          showTimeError('Elige una hora disponible para continuar.');
+          document.getElementById('time-slots').scrollIntoView({ behavior: REDUCED_MOTION ? 'auto' : 'smooth', block: 'center' });
+          return;
+        }
+        const nameOk = validateField(nameInput);
+        const phoneOk = validateField(phoneInput);
+        if (!nameOk || !phoneOk) {
+          (nameOk ? phoneInput : nameInput).focus();
+          return;
+        }
+
+        const service = getService(document.getElementById('booking-service').value);
+        const newAppointment = {
+          id: Date.now(),
+          serviceName: service.name,
+          usd: service.usd,
+          dop: service.dop,
+          date: iso,
+          time: selectedTimeSlot,
+          clientName: nameInput.value.trim(),
+          clientPhone: phoneInput.value.trim(),
+          notes: document.getElementById('client-notes').value.trim(),
+          createdAt: new Date().toISOString()
+        };
+
+        appointments.unshift(newAppointment);
+        saveAppointments();
+        renderAppointmentsModal();
+
+        const keepService = service.id;
+        form.reset();
+        document.getElementById('booking-service').value = keepService;
+        dateInput.value = iso;
+        selectedTimeSlot = null;
+        renderTimeSlots();
+
+        openConfirmModal(newAppointment);
+      });
+
+      // Modales
+      const appointmentsModal = document.getElementById('appointments-modal');
+      ['open-appointments-btn', 'open-appointments-mobile'].forEach(id => {
+        document.getElementById(id).addEventListener('click', () => openModal(appointmentsModal));
+      });
+
+      document.querySelectorAll('.modal').forEach(modal => {
+        modal.addEventListener('click', e => {
+          if (e.target === modal || e.target.closest('[data-close-modal]')) closeModal(modal);
+        });
+      });
+
+      document.addEventListener('keydown', e => {
+        if (e.key !== 'Escape') return;
+        document.querySelectorAll('.modal.flex').forEach(closeModal);
+      });
+
+      // Menú móvil
+      const menuBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      function setMenu(open) {
+        mobileMenu.classList.toggle('hidden', !open);
+        mobileMenu.classList.toggle('flex', open);
+        menuBtn.setAttribute('aria-expanded', String(open));
+        menuBtn.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+      }
+      menuBtn.addEventListener('click', () => setMenu(mobileMenu.classList.contains('hidden')));
+      mobileMenu.querySelectorAll('.mobile-link').forEach(link => link.addEventListener('click', () => setMenu(false)));
+
+      // Navbar con fondo al hacer scroll
+      const navbar = document.getElementById('navbar');
+      const onScroll = () => {
+        const scrolled = window.scrollY > 40;
+        navbar.classList.toggle('bg-[#0c0806]/85', scrolled);
+        navbar.classList.toggle('backdrop-blur-md', scrolled);
+        navbar.classList.toggle('border-b', scrolled);
+        navbar.classList.toggle('border-gold-400/10', scrolled);
+        navbar.classList.toggle('bg-transparent', !scrolled);
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+# Sistema y editores
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# Respaldos y temporales
+*.backup.html
+*.bak
+*.tmp
+*.log
+
+# Entornos y dependencias
+node_modules/
+.env
+.env.local
