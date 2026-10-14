@@ -1,14 +1,14 @@
 # EXCELSIOR — Salón & Barbería Clásica de Autor
-> **Web personal de autor, catálogo de servicios bimonetario (USD / RD$) y sistema de reservas 1 a 1 para barbero profesional independiente.**
+> **El Templo del Buen Corte y la Navaja Clásica: Barbería Masculina de Autor & Sistema de Reservas Online**
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-c9a24a?style=for-the-badge&logo=githubpages&logoColor=black)](https://herou7.github.io/excelsior-barberia/)
-[![Design Standard](https://img.shields.io/badge/Design-Luxury%20Classic%20Grooming-2a1912?style=for-the-badge)](https://github.com/HEROU7/excelsior-barberia)
-[![Performance](https://img.shields.io/badge/Performance-Ultra%20Fast%20%2F%2060%20FPS-10b981?style=for-the-badge)](https://github.com/HEROU7/excelsior-barberia)
-[![Currency](https://img.shields.io/badge/Currency-Dual%20USD%20%26%20DOP-3b82f6?style=for-the-badge)](https://github.com/HEROU7/excelsior-barberia)
-[![Dependencies](https://img.shields.io/badge/Dependencies-Zero%20Bundler-ffb703?style=for-the-badge)](https://github.com/HEROU7/excelsior-barberia)
-[![License](https://img.shields.io/badge/License-MIT-c9a24a?style=for-the-badge)](LICENSE)
+[![Standard](https://img.shields.io/badge/Standard-Awwwards%20%2F%20FWA-00f0ff?style=for-the-badge&logo=awwwards&logoColor=white)](https://github.com/HEROU7/excelsior-barberia)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-3b82f6?style=for-the-badge&logo=githubpages&logoColor=white)](https://herou7.github.io/excelsior-barberia/)
+[![Performance](https://img.shields.io/badge/Performance-60%20FPS%20Canvas-10b981?style=for-the-badge)](https://github.com/HEROU7/excelsior-barberia)
+[![Currency](https://img.shields.io/badge/Currency-Dual%20USD%20%26%20RD%24-a855f7?style=for-the-badge)](https://github.com/HEROU7/excelsior-barberia)
+[![Dependencies](https://img.shields.io/badge/Dependencies-Zero%20External%20Libs-ffb703?style=for-the-badge)](https://github.com/HEROU7/excelsior-barberia)
+[![License](https://img.shields.io/badge/License-MIT-00f0ff?style=for-the-badge)](LICENSE)
 
-> 💈 **Sitio Web en Vivo Disponible en Todo Momento:** [https://herou7.github.io/excelsior-barberia/](https://herou7.github.io/excelsior-barberia/)
+> 🚀 **Experiencia en Vivo Disponible:** [https://herou7.github.io/excelsior-barberia/](https://herou7.github.io/excelsior-barberia/)
 
 ---
 
